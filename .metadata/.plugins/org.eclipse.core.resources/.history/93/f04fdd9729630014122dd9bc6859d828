@@ -1,0 +1,95 @@
+import java.util.*;
+public class Solution {
+	static public void main(String arg[]){
+		Solution s = new Solution();
+		String[] words = {"What","must","be","shall","be."};
+		System.out.print(s.fullJustify(words, 12));
+	}
+	
+    public List<String> fullJustify(String[] words, int L) {
+        int i = 0;
+        int cur_len = 0;
+        int cur_count = 0;
+        Queue<String> queue = new LinkedList<String>();
+        List<String> lst = new ArrayList<String>();
+        if(words.length == 1){
+            String newline = words[0];
+            for(int j = 0;j < L-words[0].length();j++)
+                newline += " ";
+            lst.add(newline);
+            return lst;
+        }
+        while(i < words.length){
+            cur_len += words[i].length();
+            cur_len ++;
+            // last word
+            if(i == words.length-1){
+                if(cur_len <= L+1){ // no newline needed
+                    String newline = "";
+                    int space_len = L - cur_len+1;
+                    while(!queue.isEmpty()){
+                        cur_count--;
+                        newline += queue.poll();
+                        if(cur_count > 0)
+                            newline += " ";
+                    }
+                    for(int j = 0;j < space_len;j++)
+                        newline += " ";
+                    lst.add(newline);
+                    return lst;
+                }else{ // need a newline
+                    // first line
+                    String newline = "";
+                    int space_len = cur_count == 1?0:(L-(cur_len-words[i].length()-1-cur_count))/(cur_count-1);
+                    while(!queue.isEmpty()){
+                        cur_count--;
+                        newline += queue.poll();
+                        if(cur_count > 0){
+                            for(int j = 0;j < space_len;j++)
+                                newline += " ";
+                        }
+                    }
+                    lst.add(newline);
+                    // second line
+                    String lastline = "";
+                    lastline += words[i];
+                    for(int j = 0;j < L-words[i].length();j++)
+                        lastline += " ";
+                    lst.add(lastline);
+                    return lst;
+                }
+            }else{
+            // normal case
+            if(cur_len <= L+1){
+                queue.add(words[i]);
+                cur_count++;
+                i++;
+            }else{
+                String newline = "";
+                if(cur_count == 1){
+                	newline += queue.poll();
+                	for(int j = 0;j < L-words[i].length();j++)
+                		newline += " ";
+                	lst.add(newline);
+                	cur_len = 0;
+                	cur_count = 0;
+                }else{
+                	int space_len = cur_count == 1?0:(L-(cur_len-words[i].length()-1-cur_count))/(cur_count-1);
+                	while(!queue.isEmpty()){
+                		cur_count--;
+                		newline += queue.poll();
+                		if(cur_count > 0){
+                			for(int j = 0;j < space_len;j++)
+                				newline += " ";
+                		}
+                	}
+                	lst.add(newline);
+                	cur_len = 0;
+                	cur_count = 0;
+                }
+            }
+            }
+        }
+        return lst;
+    }
+}
