@@ -1,0 +1,77 @@
+import java.util.List;
+import java.util.Stack;
+import java.util.ArrayList;
+
+public class Solution {
+	public static void main(String arg[]){
+		Solution s = new Solution();
+		System.out.print(s.solveNQueens(4));
+	}
+    public List<String[]> solveNQueens(int n) {
+        List<String[]> output = new ArrayList<String[]>();
+        Stack<Integer> x = new Stack<Integer>();
+        Stack<Integer> y = new Stack<Integer>();
+        boolean hasOne;
+        // dfs
+        
+        if(n == 0){return output;}
+        for(int start = 0;start < n;start++){
+            String[] solution = new String[n];
+            int visited[][] = new int [n][n];
+            x.push(0);y.push(start);
+            while(!x.isEmpty()){
+                int cur_x = x.pop();
+                int cur_y = y.pop();
+                // generate result
+                String newline = "";
+                for(int i = 0;i < n;i++){
+                    newline += i==start?'Q':'.';
+                }
+                solution[cur_x] = newline;
+                if(cur_x == n-1){
+                    output.add(solution);
+                }
+                // horizontal and vertical
+                for(int i = 0;i < n;i++){
+                    if(i != cur_x){visited[i][cur_y]++;}
+                    if(i != cur_y){visited[cur_x][i]++;}
+                }
+                // diagonal
+                for(int i = -n;i < n;i++){
+                    if(cur_x+i >= 0 && cur_x+i < n && cur_y+i >= 0 && cur_y+i < n){
+                        if(i != 0){visited[cur_x+i][cur_y+i]++;}
+                    }
+                    if(cur_x+i >= 0 && cur_x+i < n && cur_y-i >= 0 && cur_y-i < n){
+                        if(i != 0){visited[cur_x+i][cur_y-i]++;}
+                    }
+                }
+                // check correctness
+                if(cur_x < n-1){
+                    hasOne = false;
+                    for(int i = 0;i < n;i++){
+                        if(visited[cur_x+1][i] == 0){
+                            hasOne = true;
+                            x.push(cur_x+1);y.push(i);
+                        }
+                    }
+                    if(!hasOne){
+                        // visited-1
+                        for(int i = 0;i < n;i++){
+                            if(i != cur_x){visited[i][cur_y]--;}
+                            if(i != cur_y){visited[cur_x][i]--;}
+                        }
+                        for(int i = -n;i < n;i++){
+                    if(cur_x+i >= 0 && cur_x+i < n && cur_y+i >= 0 && cur_y+i < n){
+                        if(i != 0){visited[cur_x+i][cur_y+i]--;}
+                    }
+                    if(cur_x+i >= 0 && cur_x+i < n && cur_y-i >= 0 && cur_y-i < n){
+                        if(i != 0){visited[cur_x+i][cur_y-i]--;}
+                    }
+                }
+                    }
+                }
+            }
+        }
+        return output;
+    }
+}
