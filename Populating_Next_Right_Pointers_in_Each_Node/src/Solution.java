@@ -76,6 +76,34 @@ public class Solution {
 	      }
 	      return;
 	}
+    
+    // II constant space
+    public void connect(TreeLinkNode root) {
+        if(root == null){return;}
+        
+        if(root.left != null && root.right != null){
+            root.left.next = root.right;
+            root.right.next = nextAvailableNode(root);
+        }else if(root.left != null && root.right == null){
+            root.left.next = nextAvailableNode(root);
+        }else if(root.right != null && root.left == null){
+            root.right.next = nextAvailableNode(root);
+        }
+        connect(root.right);
+        connect(root.left);
+        
+	}
+	
+	private TreeLinkNode nextAvailableNode(TreeLinkNode father){
+	    while(father.next != null){
+	        father = father.next;
+	        if(father.left != null)
+	            return father.left;
+	        if(father.right != null)
+	            return father.right;
+	    }
+	    return null;
+	}
 	      
 //	public void connect(TreeLinkNode root) {
 //      if(root == null){return;}

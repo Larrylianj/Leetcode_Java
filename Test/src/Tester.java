@@ -1,4 +1,4 @@
-
+import java.util.*;
 public class Tester {
 
 	public static void main(String[] args) {
@@ -8,8 +8,12 @@ public class Tester {
 //		for(int i = 0;i < all.length;i++){
 //			System.out.println(all[i]);
 //		}
-		int s[][] = {{1,2,3,4}};
-		System.out.print(s.length);
+//		
+		String a = "123123";
+		String b = a;
+		a +="123";
+		System.out.println(a);
+		System.out.println(b);
 	}
 
 }
