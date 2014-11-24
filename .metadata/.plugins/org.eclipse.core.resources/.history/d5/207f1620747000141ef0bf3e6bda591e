@@ -1,0 +1,58 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.HashSet;
+
+public class Solution {
+	
+	public static void main(String arg[]){
+		int num[] = {10,1,2,7,6,1,5};
+		Solution s = new Solution();
+		System.out.print(s.combinationSum2(num, 8));
+	}
+	
+    int finalTarget;
+    HashSet<List<Integer>> visited = new HashSet<List<Integer>>();
+    public List<List<Integer>> combinationSum2(int[] num, int target) {
+    	Arrays.sort(num);
+        finalTarget = target;
+        return search(num, target);
+    }
+    
+    public List<List<Integer>> search(int[] num, int target){
+        List<List<Integer>> output = new ArrayList<List<Integer>>();
+        for(int i = 0;i < num.length;i++){
+            if(target - num[i] > 0){
+                int newNum[] = new int[num.length-1];
+                for(int j = 0;j < i;j++){newNum[j] = num[j];}
+                for(int j = i+1;j < num.length;j++){newNum[j-1] = num[j];}
+                List<List<Integer>> lst = search(newNum, target-num[i]);
+                for(int j = 0;j < lst.size();j++){
+                    List<Integer> newLst = new ArrayList<Integer>(lst.get(j));
+                    newLst.add(0,num[i]);
+                    
+                    if(target == finalTarget){
+                        if(!visited.contains(newLst)){
+                            visited.add(newLst);
+                            output.add(newLst);
+                        }
+                    }else{
+                        output.add(newLst);
+                    }
+                }
+            }else if(target == num[i]){
+                List<Integer> oneNumLst = new ArrayList<Integer>();
+                oneNumLst.add(num[i]);
+                if(target==finalTarget){
+                    if(!visited.contains(oneNumLst)){
+                        visited.add(oneNumLst);
+                        output.add(oneNumLst);
+                    }
+                }else{
+                    output.add(oneNumLst);
+                }
+            }
+        }
+        return output;
+    }
+}

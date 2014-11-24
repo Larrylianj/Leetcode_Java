@@ -1,0 +1,71 @@
+import java.util.*;
+public class Tester {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+//		String s = "//home//../r/";
+//		String[] all = s.split("/");
+//		for(int i = 0;i < all.length;i++){
+//			System.out.println(all[i]);
+//		}
+//		
+//		String a = "123123";
+//		String b = a;
+//		a +="123";
+//		System.out.println(a);
+//		System.out.println(b);
+		
+//		List<Integer> a = new ArrayList<Integer>();
+//		List<Integer> b = new ArrayList<Integer>();
+//		a.add(9);
+//		a.add(1);
+//		b.add(9);
+//		b.add(1);
+//		HashSet<List<Integer>> set = new HashSet<List<Integer>>();
+//		set.add(a);
+//		System.out.print(set.contains(b));
+		
+		char c = (char)('0'+5);
+		System.out.print(c);
+		
+		int n[] = {0,1,0,2,1,0,1,3,2,1,2,1};
+		System.out.print(trap(n));
+	}
+	
+	    public static int trap(int[] A) {
+	        int largest_pre = -1;
+	        int rain = 0;
+	        int i = 0;
+	        Stack<Integer> stack = new Stack<Integer>();
+	        while(i < A.length){
+	            if(A[i] != 0){
+	                if(stack.isEmpty()){
+	                    stack.push(i);
+	                    largest_pre = i;
+	                }else{
+	                    if(A[i] < A[largest_pre]){
+	                        stack.push(i);
+	                    }else{
+	                        rain += (i-largest_pre)*A[largest_pre];
+	                        while(!stack.isEmpty())
+	                            rain -= stack.pop();
+	                        largest_pre = i;
+	                        stack.push(i);
+	                    }
+	                }
+	            }
+	            i++;
+	        }
+	        
+	        // for the rest, reverse it and do the same
+	        if(!stack.isEmpty()){
+	            int rest[] = new int[A.length-largest_pre];
+	            for(i = 0;i < rest.length;i++)
+	                rest[i] = A[A.length-1-i];
+	            rain += trap(rest);
+	        }
+	        
+	        return rain;
+	    }
+
+}

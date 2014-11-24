@@ -1,0 +1,10 @@
+public class Solution {
+	
+	public static void main(String arg[]){
+		String s = "(()(())))";
+		Solution ss = new Solution();
+		System.out.print(ss.longestValidParentheses(s));
+	}
+	
+    
+}
