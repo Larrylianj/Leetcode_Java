@@ -43,9 +43,10 @@ public class Tester {
 //        opt.add(n);
 //        System.out.print(opt.get(0).size()==0);
 
-		System.out.println(Integer.MAX_VALUE << 2);
-		System.out.println(Integer.MIN_VALUE >> 1);
+//		System.out.println(Integer.MAX_VALUE << 2);
+//		System.out.println(Integer.MIN_VALUE >> 1);
 		
+		System.out.println(-5 / 5);
 
 	}
 	
