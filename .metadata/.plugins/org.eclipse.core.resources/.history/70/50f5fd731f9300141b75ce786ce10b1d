@@ -1,0 +1,21 @@
+public class Solution {
+	
+	public static void main(String args[]){
+		Solution s = new Solution();
+		System.out.println(s.convertToTitle(2));
+	}
+	
+    private static final int base = 26;
+    public String convertToTitle(int n) {
+        String result = "";
+        int digit = (int)Math.floor(Math.log(n)/Math.log(base));
+        while(n!=0){
+        	int divisor = (int)Math.pow(base,digit);
+        	int number = (n-(int)Math.pow(base,digit-1))/divisor;
+            result += (char)(number+'A'-1);
+            n -= number*divisor;
+            digit--;
+        }
+        return result;
+    }
+}

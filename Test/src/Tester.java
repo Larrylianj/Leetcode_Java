@@ -45,8 +45,9 @@ public class Tester {
 
 //		System.out.println(Integer.MAX_VALUE << 2);
 //		System.out.println(Integer.MIN_VALUE >> 1);
-		
-		System.out.println(-5 / 5);
+		String str = "12.34";
+		System.out.println(Arrays.toString(str.split("/.")));
+		//System.out.println(re[1]);
 
 	}
 	
