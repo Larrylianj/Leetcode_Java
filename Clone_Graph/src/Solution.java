@@ -77,5 +77,44 @@ public class Solution {
 	    
 	    return rslt;
 	}
+    
+    // O(n) Space method
+//    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+//        Map<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+//        Set<UndirectedGraphNode> set = new HashSet<UndirectedGraphNode>();
+//        Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
+//        if(node==null){return null;}
+//        // BFS, give every node a clone, put relationship into a map
+//        UndirectedGraphNode newHead = new UndirectedGraphNode(node.label);
+//        map.put(node,newHead);
+//        queue.add(node);
+//        while(!queue.isEmpty()){
+//            UndirectedGraphNode temp = queue.poll();
+//            for(int i = 0;i < temp.neighbors.size();i++){
+//                if(!map.containsKey(temp.neighbors.get(i))){
+//                    queue.add(temp.neighbors.get(i));
+//                    UndirectedGraphNode newNode = new UndirectedGraphNode(temp.neighbors.get(i).label);
+//                    map.put(temp.neighbors.get(i),newNode);
+//                }
+//            }
+//        }
+//        // according to the map, construct new graph
+//        queue.add(node);
+//        set.add(node);
+//        while(!queue.isEmpty()){
+//            UndirectedGraphNode temp = queue.poll();
+//            if(!map.containsKey(temp)){return null;}
+//            UndirectedGraphNode clone = map.get(temp);
+//            for(int i = 0;i < temp.neighbors.size();i++){
+//                if(!map.containsKey(temp.neighbors.get(i))){return null;}
+//                clone.neighbors.add(map.get(temp.neighbors.get(i)));
+//                if(!set.contains(temp.neighbors.get(i))){
+//                    set.add(temp.neighbors.get(i));
+//                    queue.add(temp.neighbors.get(i));
+//                }
+//            }
+//        }
+//        return map.containsKey(node)?map.get(node):null;
+//    }
 
 }

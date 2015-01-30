@@ -30,4 +30,24 @@ public class Solution {
         }
         return max;
     }
+    
+    // 2nd trial
+//    int maxDepth;
+//    public int maxDepth(TreeNode root) {
+//        maxDepth = 0;
+//        traversal(root,0);
+//        return maxDepth;
+//    }
+//    
+//    private void traversal(TreeNode root, int depth){
+//        if(root==null)
+//            return;
+//        if(root.left==null && root.right==null)
+//            maxDepth = Math.max(depth+1,maxDepth);
+//        if(root.left!=null)
+//            traversal(root.left, depth+1);
+//        if(root.right!=null)
+//            traversal(root.right, depth+1);
+//        return;
+//    }
 }

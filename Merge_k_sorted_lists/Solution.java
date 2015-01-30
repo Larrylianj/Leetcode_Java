@@ -33,6 +33,34 @@ public class Solution {
         }
         return head;
     }
+    
+    // 2nd trail merge sort idea
+//    public ListNode mergeKLists(List<ListNode> lists) {
+//        for(int i = 1;i < lists.size();i *= 2)
+//            for(int j = 0;j+i < lists.size();j += 2*i)
+//                lists.set(j,mergeTwoLists(lists.get(j),lists.get(j+i)));
+//        return lists.size()==0?null:lists.get(0);
+//    }
+//    
+//    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+//        ListNode head = new ListNode(0);
+//        ListNode cur = head;
+//        while(l1 != null && l2 != null){
+//            if(l1.val < l2.val){
+//                cur.next = l1;
+//                l1 = l1.next;
+//            }else{
+//                cur.next = l2;
+//                l2 = l2.next;
+//            }
+//            cur = cur.next;
+//        }
+//        if(l1 != null)
+//            cur.next = l1;
+//        if(l2 != null)
+//            cur.next = l2;
+//        return head.next;
+//    }
 }
 
     class ListNodeComparator implements Comparator<ListNode> {

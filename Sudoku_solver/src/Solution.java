@@ -189,6 +189,149 @@ public class Solution {
             for(int j = 0;j < n;j++)
                 board[i][j] = copy[i][j];
     }
+    
+    // 2nd Trial
+//    public void solveSudoku(char[][] board) {
+//        Stack<Node> stack = new Stack<Node>();
+//        // make a copy of board
+//        char[][] origin = new char[9][9];
+//        Node last = new Node(0,0,'.');
+//        for(int i = 0;i < 9;i++)
+//            for(int j = 0;j < 9;j++)
+//                origin[i][j] = board[i][j];
+//        // push the first empty grid node into stack
+//        boolean find = false;
+//        for(int i = 0;i < 9;i++){
+//            for(int j = 0;j < 9;j++){
+//                if(board[i][j] == '.'){
+//                    List<Node> list = validNumber(board,i,j);
+//                    for(int t = 0;t < list.size();t++)
+//                        stack.push(list.get(t));
+//                    find = true;
+//                    break;
+//                }
+//            }
+//            if(find)
+//                break;
+//        }
+//        // find the last empty grid node
+//        find = false;
+//        for(int i = 8;i >=0;i--){
+//            for(int j = 8;j >= 0;j--){
+//                if(board[i][j] == '.'){
+//                    last = new Node(i,j,'.');
+//                    find = true;
+//                    break;
+//                }
+//            }
+//            if(find)
+//                break;
+//        }
+//        
+//        // DFS
+//        while(!stack.isEmpty()){
+//            Node node = stack.pop();
+//            board[node.x][node.y] = node.val;
+//            if(node.x == last.x && node.y == last.y)
+//                return;
+//            
+//            // find the next position
+//            boolean isFound = false;
+//            boolean hasNext = false;
+//            for(int j = node.y+1;j < 9;j++){ // find on current row
+//                if(board[node.x][j]=='.'){
+//                    isFound = true;
+//                    List<Node> list = validNumber(board,node.x,j);
+//                    for(int t = 0;t < list.size();t++)
+//                        stack.push(list.get(t));
+//                    
+//                    if(list.size()!=0)
+//                        hasNext = true;
+//                    break;
+//                }
+//            }
+//            if(!isFound){ // find on next rows
+//                for(int i = node.x+1;i < 9;i++){
+//                    for(int j = 0;j < 9;j++){
+//                        if(board[i][j]=='.'){
+//                            isFound = true;
+//                            List<Node> list = validNumber(board,i,j);
+//                            for(int t = 0;t < list.size();t++)
+//                                stack.push(list.get(t));
+//                            
+//                            if(list.size()!=0)
+//                                hasNext = true;
+//                            break;
+//                        }
+//                    }
+//                    if(isFound)
+//                        break;
+//                }
+//            }
+//            if(!isFound) // should never happen
+//                return;
+//            
+//            // if no char can be filled, BACK TRACE
+//            if(!hasNext){
+//                if(stack.isEmpty()){
+//                    return;
+//                }else{
+//                    Node peek = stack.peek();
+//                    if(peek.x==node.x){ // back trace current row
+//                        for(int j = node.y;j >= peek.y;j--)
+//                            board[node.x][j] = origin[node.x][j];
+//                    }else{ // back trace previous row
+//                        for(int j = node.y;j >= 0;j--)
+//                            board[node.x][j] = origin[node.x][j];
+//                        for(int i = node.x-1;i >= peek.x+1;i--)
+//                            for(int j = 8;j >= 0;j--)
+//                                board[i][j] = origin[i][j];
+//                        for(int j = 8;j >= peek.y;j--)
+//                            board[peek.x][j] = origin[peek.x][j];
+//                    }
+//                }
+//            }
+//            
+//        }
+//        return;
+//    }
+//    
+//    class Node{
+//        int x;
+//        int y;
+//        char val;
+//        Node(int a,int b, char v){
+//            x = a;
+//            y = b;
+//            val = v;
+//        }
+//    }
+//    
+//    private List<Node> validNumber(char[][] board, int x, int y){
+//        List<Node> output = new ArrayList<Node>();
+//        boolean seq[] = new boolean[9];
+//        // its block
+//        int center_x = x/3 * 3 + 1;
+//        int center_y = y/3 * 3 + 1;
+//        for(int i = -1;i <= 1;i++)
+//            for(int j = -1;j <= 1;j++)
+//                if(board[center_x+i][center_y+j]!='.')
+//                    seq[(int)(board[center_x+i][center_y+j]-'1')] = true;
+//        // its col and row
+//        for(int i = 0;i < 9;i++)
+//            if(board[i][y]!='.')
+//                seq[(int)(board[i][y]-'1')] = true;
+//        for(int j = 0;j < 9;j++)
+//            if(board[x][j]!='.')
+//                seq[(int)(board[x][j]-'1')] = true;
+//        // construct Nodes
+//        for(int i = 0;i < 9;i++)
+//            if(!seq[i]){
+//                Node node = new Node(x,y,(char)(i+'1'));
+//                output.add(node);
+//            }
+//        return output;
+//    }
 }
 
 class Node{

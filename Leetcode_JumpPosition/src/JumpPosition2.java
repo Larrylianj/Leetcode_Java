@@ -10,6 +10,23 @@ public class JumpPosition2 {
 		System.out.print(steps);
 		
 	}
+    
+    // 2nd trial
+//    public int jump(int[] A) {
+//        int step = 0;
+//        int low = 0;
+//        int high = 0;
+//        while(high < A.length-1){
+//            int preLow = low;
+//            int preHigh = high;
+//            for(int t = preLow;t <= preHigh;t++)
+//                high = Math.max(t+A[t], high);
+//            low = preHigh+1;
+//            step++;
+//        }
+//        return step;
+//    }
+    
     public static int canJump(int[] A) {
     	int VeryBig = 100000;
     	int mini = VeryBig;

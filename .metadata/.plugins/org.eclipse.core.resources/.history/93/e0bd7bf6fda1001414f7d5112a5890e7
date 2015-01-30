@@ -1,0 +1,421 @@
+import java.util.*;
+class Node{
+    int x;
+    int y;
+    Node(int a, int b){
+        x = a;
+        y = b;
+    }
+}
+class ListNode {
+	int val;
+	ListNode next;
+	ListNode(int x) {
+		val = x;
+		next = null;
+	}
+}
+public class Tester {
+
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//char[][] b ={{'.','.','.','.','.','.','.','.','.'},{'.','.','.','.','.','.','3','.','.'},{'.','.','.','1','8','.','.','.','.'},{'.','.','.','7','.','.','.','.','.'},{'.','.','.','.','1','.','9','7','.'},{'.','.','.','.','.','.','.','.','.'},{'.','.','.','3','6','.','1','.','.'},{'.','.','.','.','.','.','.','.','.'},{'.','.','.','.','.','.','.','2','.'}};
+//		char[][] b ={{'5','3','.','.','7','.','.','.','.'},{'6','.','.','1','9','5','.','.','.'},{'.','9','8','.','.','.','.','6','.'},{'8','.','.','.','6','.','.','.','3'},{'4','.','.','8','.','3','.','.','1'},{'7','.','.','.','2','.','.','.','6'},{'.','6','.','4','1','9','2','8','.'},{'.','.','.','.','8','.','.','.','5'},{'.','.','.','.','.','.','.','7','9'}};
+		Tester t = new Tester();
+		List<ListNode> list = new ArrayList<ListNode>();
+		ListNode l1 = new ListNode(2);
+		ListNode l2 = new ListNode(1);
+		list.add(l1);
+		list.add(l2);
+		t.mergeKLists(list);
+	}
+	
+	public ListNode mergeKLists(List<ListNode> lists) {
+        for(int i = 1;i < lists.size();i *= 2)
+            for(int j = 0;j+i < lists.size();j += 2*i)
+                mergeTwoLists(lists.get(j),lists.get(j+i));
+        return lists.size()==0?null:lists.get(0);
+    }
+    
+    public void mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode head = new ListNode(0);
+        ListNode cur = head;
+        while(l1 != null && l2 != null){
+            if(l1.val < l2.val){
+                cur.next = l1;
+                l1 = l1.next;
+            }else{
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        if(l1 != null)
+            cur.next = l1;
+        if(l2 != null)
+            cur.next = l2;
+        l1 = head.next;
+    }
+	
+	public int jump(int[] A) {
+        int step = 0;
+        int low = 0;
+        int high = 0;
+        while(high < A.length-1){
+        	int preLow = low;
+            int preHigh = high;
+            for(int t = preLow;t <= preHigh;t++)
+                high = Math.max(t+A[t], high);
+            low = preHigh+1;
+            step++;
+        }
+        return step;
+    }
+	
+	class TreeNode {
+		 int val;
+		 TreeNode left;
+		 TreeNode right;
+		 TreeNode(int x) { val = x; left = null; right = null; }
+	}
+	
+	public List<TreeNode> generateTrees(int n) {
+        List<TreeNode> output = new ArrayList<TreeNode>();
+        // edge case
+        if(n==0){
+            TreeNode zero = null;
+            output.add(zero);
+        }
+        List<String> seq = generateSeq(n);
+        for(int i = 0;i < seq.size();i++){
+            String str = seq.get(i);
+            if(str.length() > 3){
+                if((int)(str.charAt(str.length()-2)-str.charAt(str.length()-1)) <= 2)
+                    output.add(generateTree(str));
+            }else{
+                output.add(generateTree(str));
+            }
+        }
+        return output;
+    }
+    
+    private TreeNode generateTree(String s){
+        TreeNode root = new TreeNode((int)(s.charAt(0)-'0'));;
+        for(int i = 1;i < s.length();i++){
+            TreeNode node = new TreeNode((int)(s.charAt(i)-'0'));
+            addNodeOn(root, node);
+        }
+        return root;
+    }
+    
+    private void addNodeOn(TreeNode root, TreeNode node){
+        if(root==null){
+            root = node;
+        }else{
+            if(node.val > root.val){
+                if(root.right==null)
+                    root.right = node;
+                else
+                    addNodeOn(root.right, node);
+            }else{
+                if(root.left==null)
+                    root.left = node;
+                else
+                    addNodeOn(root.left, node);
+            }
+        }
+    }
+	
+	public List<String> generateSeq(int n){
+        List<String> list = new ArrayList<String>();
+        // base case
+        if(n==0){return list;}
+        String oneStr = "1";
+        list.add(oneStr);
+        
+        // general case
+        for(int i = 2;i <= n;i++){
+            int preLength = list.size();
+            for(int j = 0;j < preLength;j++){
+                String str = list.get(j);
+                for(int t = 0;t <= str.length();t++){
+                    String newStr = str.substring(0,t)+(char)(i+'0')+str.substring(t,str.length());
+                    list.add(newStr);
+                }
+            }
+            for(int j = 0;j < preLength;j++)
+                list.remove(0);
+        }
+        
+        return list;
+    }
+	
+	class Node{
+        int x;
+        int y;
+        char val;
+        Node(int a,int b, char v){
+            x = a;
+            y = b;
+            val = v;
+        }
+    }
+    
+    public boolean isValidSudoku(char[][] board) {
+        Stack<Node> stack = new Stack<Node>();
+        // make a copy of board
+        char[][] origin = new char[9][9];
+        Node last = new Node(0,0,'.');
+        for(int i = 0;i < 9;i++)
+            for(int j = 0;j < 9;j++)
+                origin[i][j] = board[i][j];
+        // find the first empty grid node
+        boolean find = false;
+        for(int i = 0;i < 9;i++){
+            for(int j = 0;j < 9;j++){
+                if(board[i][j] == '.'){
+                    for(char t = '1';t <= '9';t++){
+                        if(isValid(board,i,j,t)){
+                            Node node = new Node(i,j,t);
+                            stack.push(node);
+                        }
+                    }
+                    find = true;
+                    break;
+                }
+            }
+            if(find)
+                break;
+        }
+     // find the last empty grid node
+        find = false;
+        for(int i = 8;i >=0;i--){
+            for(int j = 8;j >= 0;j--){
+                if(board[i][j] == '.'){
+                    last = new Node(i,j,'.');
+                    find = true;
+                    break;
+                }
+            }
+            if(find)
+                break;
+        }
+                    
+        // DFS
+        while(!stack.isEmpty()){
+            Node node = stack.pop();
+            board[node.x][node.y] = node.val;
+            if(node.x == last.x && node.y == last.y)
+                return true;
+            
+            // find the next position
+            boolean isFound = false;
+            boolean hasNext = false;
+            for(int j = node.y+1;j < 9;j++){ // find on current row
+                if(board[node.x][j]=='.'){
+                    isFound = true;
+                    for(char t = '1';t <= '9';t++){
+                        if(isValid(board,node.x,j,t)){
+                            Node next = new Node(node.x,j,t);
+                            stack.push(next);
+                            hasNext = true;
+                        }
+                    }
+                    break;
+                }
+            }
+            if(!isFound){ // find on next rows
+                for(int i = node.x+1;i < 9;i++){
+                    for(int j = 0;j < 9;j++){
+                        if(board[i][j]=='.'){
+                            isFound = true;
+                            for(char t = '1';t <= '9';t++){
+                                if(isValid(board,i,j,t)){
+                                    Node next = new Node(i,j,t);
+                                    stack.push(next);
+                                    hasNext = true;
+                                }
+                            } 
+                            break;
+                        }
+                    }
+                    if(isFound)
+                        break;
+                }
+            }
+            if(!isFound) // should never happen
+                return false;
+         // if no char can be filled, BACK TRACE
+            if(!hasNext){
+                if(stack.isEmpty()){
+                    return false;
+                }else{
+                    Node peek = stack.peek();
+                    if(peek.x==node.x){ // back trace current row
+                        for(int j = node.y;j >= peek.y;j--)
+                            board[node.x][j] = origin[node.x][j];
+                    }else{ // back trace previous row
+                        for(int j = node.y;j >= 0;j--)
+                            board[node.x][j] = origin[node.x][j];
+                        for(int i = node.x-1;i >= peek.x+1;i--)
+                            for(int j = 8;j >= 0;j--)
+                                board[i][j] = origin[i][j];
+                        for(int j = 8;j >= peek.y;j--)
+                            board[peek.x][j] = origin[peek.x][j];
+                    }
+                }
+            }
+            
+        }
+        return false;
+    }
+    private boolean isValid(char[][] board, int x, int y, char value){
+        // its block
+        int center_x = x/3 * 3 + 1;
+        int center_y = y/3 * 3 + 1;
+        for(int i = -1;i <= 1;i++)
+            for(int j = -1;j <= 1;j++)
+                if(board[center_x+i][center_y+i]==value)
+                    return false;
+        // its col and row
+        for(int i = 0;i < 9;i++)
+            if(board[i][y]==value)
+                return false;
+        for(int j = 0;j < 9;j++)
+            if(board[x][j]==value)
+                return false;
+        return true;
+    }
+	
+	public int removeDuplicates(int[] A) {
+        int p1 = 0;
+        int p2 = 0;
+        int begin, end;
+        if(A.length==0){return 0;}
+        // points p2 to a next element;
+        while(p2 < A.length){
+            if(A[p1]!=A[p2])
+                break;
+            p2++;
+        }
+        end = p2;
+        // set p1 to end
+        begin = p1+1;
+        while(begin < end && p2 < A.length){
+            if(A[begin]==A[p1]){
+                A[begin] = A[p2];
+                // shift p2
+                int temp = A[p2];
+                while(p2 < A.length){
+                    if(A[p2] != temp)
+                        break;
+                    p2++;
+                }
+            }else{
+                p1 = begin;
+            }
+            begin++;
+        }
+        
+        // set the rest according to p2
+        while(p2 < A.length){
+            A[begin++] = A[p2];
+            int temp = A[p2];
+            while(p2 < A.length){
+                if(A[p2] != temp)
+                    break;
+                p2++;
+            }
+        }
+        
+        return begin;
+    }
+	
+	public double findMedianSortedArrays(int A[], int B[]) {
+        return findMedianSortedArrays(A,0,A.length-1,B,0,B.length-1);
+    }
+    
+    private double findMedianSortedArrays(int A[], int A_begin, int A_end, int B[], int B_begin, int B_end){
+        // base case
+        int n = A_end-A_begin+1;
+        int m = B_end-B_begin+1;
+        
+        if(n+m==0){return 0;}
+        if(n==0){return findMedian(B,B_begin,B_end);}
+        if(m==0){return findMedian(A,A_begin,A_end);}
+        
+        if(A[A_begin] >= B[B_end])
+            return (findKthInArrays(B,B_begin,B_end,A,A_begin,A_end,(n+m)/2)+findKthInArrays(B,B_begin,B_end,A,A_begin,A_end,(n+m-1)/2))/2.0;
+        if(A[A_end] <= B[B_begin])
+            return (findKthInArrays(A,A_begin,A_end,B,B_begin,B_end,(n+m)/2)+findKthInArrays(A,A_begin,A_end,B,B_begin,B_end,(n+m-1)/2))/2.0;
+            
+        if(n==1){
+            if(m%2!=0){
+                if(A[A_begin] <= B[B_begin+(B_end-B_begin)/2-1])
+                    return (B[B_begin+(B_end-B_begin)/2-1]+B[B_begin+(B_end-B_begin)/2])/2.0;
+                else if(A[A_begin] >= B[B_begin+(B_end-B_begin)/2+1])
+                    return (B[B_begin+(B_end-B_begin)/2+1]+B[B_begin+(B_end-B_begin)/2])/2.0;
+                else
+                    return (A[A_begin]+B[B_begin+(B_end-B_begin)/2])/2.0;
+            }else{
+                if(A[A_begin] <= B[B_begin+(B_end-B_begin)/2])
+                    return B[B_begin+(B_end-B_begin)/2];
+                else if(A[A_end] >= B[B_begin+(B_end-B_begin)/2+1])
+                    return B[B_begin+(B_end-B_begin)/2+1];
+                else
+                    return A[A_begin];
+            }
+        }
+        if(m==1){
+            if(n%2!=0){
+                if(B[B_begin] <= A[A_begin+(A_end-A_begin)/2-1])
+                    return (A[A_begin+(A_end-A_begin)/2-1]+A[A_begin+(A_end-A_begin)/2])/2.0;
+                else if(B[B_begin] >= A[A_begin+(A_end-A_begin)/2+1])
+                    return (A[A_begin+(A_end-A_begin)/2+1]+A[A_begin+(A_end-A_begin)/2])/2.0;
+                else
+                    return (B[B_begin]+A[A_begin+(A_end-A_begin)/2])/2.0;
+            }else{
+                if(B[B_begin] <= A[A_begin+(A_end-A_begin)/2])
+                    return A[A_begin+(A_end-A_begin)/2];
+                else if(B[B_end] >= A[A_begin+(A_end-A_begin)/2+1])
+                    return A[A_begin+(A_end-A_begin)/2+1];
+                else
+                    return B[B_begin];
+            }
+        }
+        
+        // general case
+        double A_median = findMedian(A,A_begin,A_end);
+        double B_median = findMedian(B,B_begin,B_end);
+        if(A_median==B_median){return A_median;}
+        int cut = Math.min((A_end-A_begin+1)/2,(B_end-B_begin+1)/2);
+        int A_left = A[A_begin+(A_end-A_begin-1)/2];
+        int A_right = A[A_begin+(A_end-A_begin)/2+1];
+        int B_left = B[B_begin+(B_end-B_begin-1)/2];
+        int B_right = B[B_begin+(B_end-B_begin)/2+1];
+        if(A_left > B_left)
+            B_begin += cut;
+        else
+            A_begin += cut;
+        if(A_right > B_right)
+            A_end -= cut;
+        else
+            B_end -= cut;
+        return findMedianSortedArrays(A,A_begin,A_end,B,B_begin,B_end);
+    }
+    
+    private double findMedian(int A[], int begin, int end){
+        if((end-begin+1)%2==0)
+            return (A[begin + (end-begin)/2]+A[begin+(end-begin)/2+1])/2.0;
+        else
+            return A[begin + (end-begin)/2];
+    }
+    
+    private double findKthInArrays(int A[], int A_begin, int A_end, int B[], int B_begin, int B_end, int k){
+        if(k >= A_end-A_begin+1)
+            return B[B_begin+k-(A_end-A_begin+1)];
+        else
+            return A[A_begin+k];
+    }
+}
